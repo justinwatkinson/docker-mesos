@@ -4,11 +4,11 @@ Used to deploy a mesos-master using Docker
 ## Important Info
 This is very far from complete!  This is by no means ready for prime time in any system, just a playground for some stuff I've been working at home to POC Mesos, but simplifying the architecture by containerizing everything - from Mesos to frameworks to helper tools.
 
-Note:  192.168.99.100 is the docker-machine IP for my mesos-master, and .101 is my mesos-slave-1.  This will be enhanced later to dynamically replace, or better yet, use libnetwork!  All of these images are also available in Docker Hub
+Note:  192.168.99.100 is the docker-machine IP for my mesos-master, and .101 is my mesos-slave-1.  This will be enhanced later to dynamically replace, or better yet, use libnetwork!  All of these images are also available in Docker Hub.
 
 ## Starting the container with Docker Compose
 
-Currently doing this test usig docker-machine and compose.  You should be able to use the start-master.sh if you already have docker-machine installed to create a VM.  You should be able to continually use this script to launch.  I know it has an error if the docker machine already exists - known issue, focusing on other stuff at the moment.
+Currently doing this test using docker-machine and compose.  You should be able to use the start-master.sh if you already have docker-machine installed to create a VM.  You should be able to continually use this script to launch.  I know it has an error if the docker machine already exists - known issue, focusing on other stuff at the moment.
 
 Starting using Docker Compose:
 
