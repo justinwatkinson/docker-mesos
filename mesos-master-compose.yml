@@ -1,0 +1,64 @@
+zkexhibitor:
+  image: justinwatkinson/zookeeper-exhibitor:latest
+  restart: on-failure:5
+  ports:
+    - "2181:2181"
+    - "2888:2888"
+    - "3888:3888"
+    - "8081:8081"
+  environment:
+    - EXHIBITOR_CONFIG_TYPE=file
+
+mesosmaster:
+  image: justinwatkinson/mesos-master:latest
+  restart: always
+  net: "host"
+  ports:
+    - "5050:5050"
+  environment:
+    - MESOS_HOSTNAME=192.168.99.100
+    - MESOS_IP=192.168.99.100
+    - MESOS_WORK_DIR=/var/mesos
+    - MESOS_LOG_DIR=/var/log
+    - MESOS_ZK=zk://192.168.99.100:2181/mesos
+    - MESOS_QUORUM=1
+    - MESOS_ZK_SESSION_TIMEOUT=30secs
+    - MESOS_REGISTRY_STORE_TIMEOUT=15secs
+
+marathon:
+  image: justinwatkinson/marathon:latest
+  restart: always
+  net: "host"
+  ports:
+    - "8080:8080"
+  environment:
+    MESOS_MASTER: zk://192.168.99.100:2181/mesos
+    MARATHON_ZK: zk://192.168.99.100:2181/marathon
+
+consulserver:
+  image: progrium/consul
+  restart: always
+  net: "host"
+  ports:
+    - "8300:8300"
+    - "8301:8301"
+    - "8301:8301/udp"
+    - "8302:8302"
+    - "8302:8302/udp"
+    - "8400:8400"
+    - "8500:8500"
+  command: "-server -advertise 192.168.99.100 -bootstrap-expect 1 -ui-dir /ui"
+
+registrator:
+  image: gliderlabs/registrator:master
+  net: "host"
+  command: "-ip=192.168.99.100 -resync=10 -ttl=30 -ttl-refresh=15 consul://localhost:8500"
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+
+consultemplatehaproxy:
+  image: justinwatkinson/consul-template:haproxy
+  ports:
+    - "7070:80"
+  environment:
+    - CONSUL_HOST=192.168.99.100:8500
