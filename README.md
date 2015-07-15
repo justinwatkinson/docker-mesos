@@ -6,13 +6,13 @@ This is very far from complete!  This is by no means ready for prime time in any
 
 Note:  192.168.99.100 is the docker-machine IP for my mesos-master, and .101 is my mesos-slave-1.  This will be enhanced later to dynamically replace, or better yet, use libnetwork!  All of these images are also available in Docker Hub
 
-## Starting the container manually (no compose)
+## Starting the container with Docker Compose
 
 Currently doing this test usig docker-machine and compose.  You should be able to use the start-master.sh if you already have docker-machine installed to create a VM.  You should be able to continually use this script to launch.  I know it has an error if the docker machine already exists - known issue, focusing on other stuff at the moment.
 
 Starting using Docker Compose:
 
-  ./start-master.sh
+    ./start-master.sh
 
 Docker Compose is still a little strange when you use it with a custom file.  Not all command may work.  Use at your own risk.  I've been testing against the busybox Boot2Docker docker-machine image with this setup quite successfully.
 
